@@ -1,0 +1,6 @@
+db.sqlite3
+books_audio/
+books_covers/
+.mp3
+.png
+.jpg
