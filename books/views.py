@@ -1,7 +1,25 @@
-from rest_framework import generics, viewsets
+from django.http import FileResponse, Http404
+from rest_framework import generics, viewsets, views
+
 from .serializers import *
 from .models import *
 from base.permisions import IsAuthor
+
+class StreamingFileView(views.APIView):
+    def get(self, request, pk):
+        audio = generics.get_object_or_404(Book, id=pk)
+        if os.path.exists(audio.file.path):
+            return FileResponse(open(audio.file.path, 'rb'), filename=audio.file.path)
+        else:
+            return Http404
+
+class DownloadFileView(views.APIView):
+    def get(self, request, pk):
+        audio = generics.get_object_or_404(Book, id=pk)
+        if os.path.exists(audio.file.path):
+            return FileResponse(open(audio.file.path, 'rb'), filename=audio.file.path, as_attachment=True)
+        else:
+            return Http404
 
 class BooksViewSet(viewsets.ModelViewSet):
     serializer_class = BooksListSerializer

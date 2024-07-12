@@ -10,5 +10,8 @@ urlpatterns = [
 
     path("public-books-list/", PublicBooksListView.as_view({'get': 'list'})),
     path("public-books-list/<int:pk>/", PublicBooksListView.as_view({'get': 'retrieve'})),
+
+    path("book-play/<int:pk>/", StreamingFileView.as_view()),
+    path("book-download/<int:pk>/", DownloadFileView.as_view()),
 ]
 
